@@ -10,7 +10,7 @@ const db = mysql.createPool({
     host: "localhost",
     user: "root",
     password: "",
-    database: "fitness_db",
+    database: "berletek",
     port: 3307
 });
 
@@ -34,7 +34,10 @@ app.get("/berletek", async (req, res) => {
 app.get("/berletek/elerheto", async (req, res) => {
     try {
         const [eredmeny] = await db.query(`
-           
+           SELECT *
+       FROM berletek
+       WHERE diak_kedvezmeny = 1
+       AND ervenyes_napok <= 30
         `);
  
         res.json(eredmeny);
@@ -46,7 +49,9 @@ app.get("/berletek/elerheto", async (req, res) => {
 app.get("/berletek/kereses/:szoveg", async (req, res) => {
     try {
         const [eredmeny] = await db.query(`
-            
+            SELECT *
+       FROM berletek
+       WHERE megnevezes LIKE ?
         `);
  
         res.json(eredmeny);
